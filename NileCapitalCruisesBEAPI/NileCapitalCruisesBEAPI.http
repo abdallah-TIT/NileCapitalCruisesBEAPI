@@ -1,0 +1,6 @@
+@NileCapitalCruisesBEAPI_HostAddress = http://localhost:5072
+
+GET {{NileCapitalCruisesBEAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
