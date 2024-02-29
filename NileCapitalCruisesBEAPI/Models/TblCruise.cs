@@ -13,5 +13,9 @@ public partial class TblCruise
 
     public bool? CruiseStatus { get; set; }
 
+    public string? CruisePhoto { get; set; }
+
+    public string? CruiseBanner { get; set; }
+
     public virtual ICollection<TblCruisesContent> TblCruisesContents { get; set; } = new List<TblCruisesContent>();
 }

@@ -36,4 +36,6 @@ public partial class VwCruisesItinerary
     public string? CruiseNameSys { get; set; }
 
     public string? CruiseUrl { get; set; }
+
+    public string? CruisePhoto { get; set; }
 }

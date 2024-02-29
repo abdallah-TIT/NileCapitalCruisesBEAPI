@@ -64,4 +64,18 @@ public partial class VwRatesPrice
     public int? CabinMaxOccupancy { get; set; }
 
     public int? CabinNumbers { get; set; }
+
+    public string? CruisePhoto { get; set; }
+
+    public string? CruiseBanner { get; set; }
+
+    public string? CabinDescription { get; set; }
+
+    public string? CabinSize { get; set; }
+
+    public string? CabinBed { get; set; }
+
+    public int? CabinAllotment { get; set; }
+
+    public int? OperationDateId { get; set; }
 }

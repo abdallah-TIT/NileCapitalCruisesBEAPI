@@ -4,6 +4,8 @@ namespace NileCapitalCruisesBEAPI.DTOs.BookingWedget
 {
     public class CLS_OperationDates
     {
+        public int OperationDateId { get; set; }
+
         [JsonIgnore]
         public DateTime? OperationDate { get; set; }
 

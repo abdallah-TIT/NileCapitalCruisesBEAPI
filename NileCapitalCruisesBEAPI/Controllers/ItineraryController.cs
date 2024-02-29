@@ -16,12 +16,12 @@ namespace BookingNile.API.Controllers.CMS
 
 
         [HttpGet("getItineraries/{LangName}/{CruiseUrl}")]
-        
-        public  ActionResult GetItineraries(string LangName, string CruiseUrl)
-        {
-            var items =  _dbContext.VwCruisesItineraries.Where(vw => vw.LangAbbreviation == LangName && vw.CruiseUrl == CruiseUrl).ToList();
 
-            if (items.Count < 1 )
+        public ActionResult GetItineraries(string LangName, string CruiseUrl)
+        {
+            var items = _dbContext.VwCruisesItineraries.Where(vw => vw.LangAbbreviation == LangName && vw.CruiseUrl == CruiseUrl).ToList();
+
+            if (items.Count < 1)
                 return NotFound();
 
             return Ok(items);

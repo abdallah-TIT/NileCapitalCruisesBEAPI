@@ -13,5 +13,11 @@ public partial class TblCabinsContent
 
     public string? CabinName { get; set; }
 
+    public string? CabinDescription { get; set; }
+
+    public string? CabinSize { get; set; }
+
+    public string? CabinBed { get; set; }
+
     public virtual TblCabin? Cabin { get; set; }
 }

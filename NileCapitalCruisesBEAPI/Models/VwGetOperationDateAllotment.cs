@@ -10,4 +10,6 @@ public partial class VwGetOperationDateAllotment
     public DateTime? OperationDate { get; set; }
 
     public int? CountAllotment { get; set; }
+
+    public int? CabinAllotment { get; set; }
 }
