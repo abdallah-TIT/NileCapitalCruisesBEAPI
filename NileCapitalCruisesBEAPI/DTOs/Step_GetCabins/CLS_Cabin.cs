@@ -1,12 +1,26 @@
-﻿namespace NileCapitalCruisesBEAPI.DTOs.Step_GetCabins
+﻿using System.Text.Json.Serialization;
+
+namespace NileCapitalCruisesBEAPI.DTOs.Step_GetCabins
 {
     public class CLS_Cabin
     {
 
         public int? CabinId { get; set; }
 
-        public double? RatePrice { get; set; }
-        public double? TotalPrice { get; set; }
+        
+        
+        public double? PriceAdultBasic { get; set; }
+        public double? PriceChildren { get; set; }
+        public double? PriceAdults { get; set; }
+        public double? NetPriceNightTotal { get; set; }
+        public double? NetPriceTotal { get; set; }
+        public double? AmountService { get; set; }
+        public double? AmountVat { get; set; }
+        public double? AmountCityTax { get; set; }
+        public double? TotalPriceAfterTax { get; set; }
+
+
+
 
         public string? RateNameSys { get; set; }
         public string? CabinNameSys { get; set; }

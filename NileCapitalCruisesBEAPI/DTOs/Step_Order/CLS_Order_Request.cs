@@ -9,8 +9,10 @@
         public int? AdultsNo { get; set; }
 
         public int? ChildNo { get; set; }
+        public float? ChildAge1 { get; set; } = 0;
+        public float? ChildAge2 { get; set; } = 0;
 
-       
+        public double? PriceAdultBasic { get; set; }
 
         public string? str_OperationDate { get; set; }
 
@@ -30,6 +32,6 @@
 
         public string? OrderSpecialRequest { get; set; }
 
-        public double? PriceAdultRate { get; set; }
+        //public double? PriceAdultRate { get; set; }
     }
 }

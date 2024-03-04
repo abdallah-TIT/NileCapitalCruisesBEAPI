@@ -53,6 +53,8 @@ public partial class NileCapitalCruisesBedbContext : DbContext
 
     public virtual DbSet<TblRatesCabinPerPeriod> TblRatesCabinPerPeriods { get; set; }
 
+    public virtual DbSet<TblRatesPricesStructure> TblRatesPricesStructures { get; set; }
+
     public virtual DbSet<VwCabinsAmenity> VwCabinsAmenities { get; set; }
 
     public virtual DbSet<VwCabinsPhoto> VwCabinsPhotos { get; set; }
@@ -325,6 +327,16 @@ public partial class NileCapitalCruisesBedbContext : DbContext
             entity.Property(e => e.ItineraryId).HasColumnName("ItineraryID");
             entity.Property(e => e.PeriodId).HasColumnName("PeriodID");
             entity.Property(e => e.RateId).HasColumnName("RateID");
+        });
+
+        modelBuilder.Entity<TblRatesPricesStructure>(entity =>
+        {
+            entity.HasKey(e => e.RatePriceStructureId).HasName("PK_tbl_Rate_Price_Structure");
+
+            entity.ToTable("tbl_Rates_Prices_Structure", "dbo");
+
+            entity.Property(e => e.RatePriceStructureId).HasColumnName("RatePriceStructureID");
+            entity.Property(e => e.Description).HasColumnType("ntext");
         });
 
         modelBuilder.Entity<VwCabinsAmenity>(entity =>

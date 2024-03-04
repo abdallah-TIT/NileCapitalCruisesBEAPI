@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using NileCapitalCruisesBEAPI;
 using NileCapitalCruisesBEAPI.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpClient();
 var ConnectionString = builder.Configuration.GetConnectionString("AppDbConnectionBE");
 builder.Services.AddDbContext<NileCapitalCruisesBedbContext>(options => options.UseSqlServer(ConnectionString));
-
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 var ConnectionStringOp = builder.Configuration.GetConnectionString("AppDbConnectionBEOP");
 builder.Services.AddDbContext<NileCapitalCruisesBeopdbContext>(options => options.UseSqlServer(ConnectionStringOp));
 

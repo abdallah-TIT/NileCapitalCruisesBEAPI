@@ -6,6 +6,10 @@ namespace NileCapitalCruisesBEAPI.DTOs.Step_GetCabins
     {
 
 
+        public int? AdultNumber { get; set; }
+        public int? ChildNumber { get; set; }
+        public float ChildAge1 { get; set; }
+        public float ChildAge2 { get; set; }
         public int? OperationDateId { get; set; }
         public int? ItineraryId { get; set; }
 
