@@ -13,5 +13,7 @@ public partial class TblCruisesContent
 
     public string? CruiseName { get; set; }
 
+    public string? CruiseDescription { get; set; }
+
     public virtual TblCruise? Cruise { get; set; }
 }

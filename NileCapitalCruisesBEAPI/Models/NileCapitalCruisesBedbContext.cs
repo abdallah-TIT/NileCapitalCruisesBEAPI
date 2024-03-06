@@ -15,6 +15,10 @@ public partial class NileCapitalCruisesBedbContext : DbContext
     {
     }
 
+    public virtual DbSet<ItinerariesDay> ItinerariesDays { get; set; }
+
+    public virtual DbSet<ItinerariesDaysEvent> ItinerariesDaysEvents { get; set; }
+
     public virtual DbSet<TblCabin> TblCabins { get; set; }
 
     public virtual DbSet<TblCabinsAmenity> TblCabinsAmenities { get; set; }
@@ -28,6 +32,10 @@ public partial class NileCapitalCruisesBedbContext : DbContext
     public virtual DbSet<TblCruisesContent> TblCruisesContents { get; set; }
 
     public virtual DbSet<TblDestination> TblDestinations { get; set; }
+
+    public virtual DbSet<TblExtra> TblExtras { get; set; }
+
+    public virtual DbSet<TblExtraPriceType> TblExtraPriceTypes { get; set; }
 
     public virtual DbSet<TblItinerariesContent> TblItinerariesContents { get; set; }
 
@@ -63,7 +71,11 @@ public partial class NileCapitalCruisesBedbContext : DbContext
 
     public virtual DbSet<VwCruisesItinerary> VwCruisesItineraries { get; set; }
 
+    public virtual DbSet<VwExtrasExtraPriceType> VwExtrasExtraPriceTypes { get; set; }
+
     public virtual DbSet<VwGetOperationDateAllotment> VwGetOperationDateAllotments { get; set; }
+
+    public virtual DbSet<VwItinerariesDaysDetail> VwItinerariesDaysDetails { get; set; }
 
     public virtual DbSet<VwRatesPrice> VwRatesPrices { get; set; }
 
@@ -74,6 +86,28 @@ public partial class NileCapitalCruisesBedbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("titbBEdbUsr2024");
+
+        modelBuilder.Entity<ItinerariesDay>(entity =>
+        {
+            entity.HasKey(e => e.ItineraryDayId);
+
+            entity.ToTable("Itineraries_Days", "dbo");
+
+            entity.Property(e => e.ItineraryDayId).HasColumnName("ItineraryDayID");
+            entity.Property(e => e.DayName).HasMaxLength(250);
+            entity.Property(e => e.ItineraryId).HasColumnName("ItineraryID");
+        });
+
+        modelBuilder.Entity<ItinerariesDaysEvent>(entity =>
+        {
+            entity.HasKey(e => e.ItinerariesDaysEventsId).HasName("PK_Itinerary_Day_Details");
+
+            entity.ToTable("Itineraries_Days_Events", "dbo");
+
+            entity.Property(e => e.ItinerariesDaysEventsId).HasColumnName("ItinerariesDaysEventsID");
+            entity.Property(e => e.EventDescription).HasMaxLength(250);
+            entity.Property(e => e.ItineraryDayId).HasColumnName("ItineraryDayID");
+        });
 
         modelBuilder.Entity<TblCabin>(entity =>
         {
@@ -153,6 +187,7 @@ public partial class NileCapitalCruisesBedbContext : DbContext
             entity.ToTable("tbl_Cruises_Content", "dbo");
 
             entity.Property(e => e.CruiseContentId).HasColumnName("CruiseContentID");
+            entity.Property(e => e.CruiseDescription).HasColumnType("ntext");
             entity.Property(e => e.CruiseId).HasColumnName("CruiseID");
             entity.Property(e => e.CruiseName).HasMaxLength(250);
             entity.Property(e => e.LangId).HasColumnName("LangID");
@@ -171,6 +206,31 @@ public partial class NileCapitalCruisesBedbContext : DbContext
 
             entity.Property(e => e.DestinationId).HasColumnName("DestinationID");
             entity.Property(e => e.DestinationNameSys).HasMaxLength(250);
+        });
+
+        modelBuilder.Entity<TblExtra>(entity =>
+        {
+            entity.HasKey(e => e.ExtraId);
+
+            entity.ToTable("tbl_Extras", "dbo");
+
+            entity.Property(e => e.ExtraId).HasColumnName("ExtraID");
+            entity.Property(e => e.ExtraDescription).HasColumnType("ntext");
+            entity.Property(e => e.ExtraEndDate).HasColumnType("datetime");
+            entity.Property(e => e.ExtraNameSys).HasMaxLength(250);
+            entity.Property(e => e.ExtraPhoto).HasMaxLength(250);
+            entity.Property(e => e.ExtraPriceTypeId).HasColumnName("ExtraPriceTypeID");
+            entity.Property(e => e.ExtraStartDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<TblExtraPriceType>(entity =>
+        {
+            entity.HasKey(e => e.ExtraPriceTypeId);
+
+            entity.ToTable("tbl_ExtraPriceTypes", "dbo");
+
+            entity.Property(e => e.ExtraPriceTypeId).HasColumnName("ExtraPriceTypeID");
+            entity.Property(e => e.ExtraPriceTypeNameSys).HasMaxLength(250);
         });
 
         modelBuilder.Entity<TblItinerariesContent>(entity =>
@@ -378,7 +438,9 @@ public partial class NileCapitalCruisesBedbContext : DbContext
                 .ToView("vw_Cruises_Itineraries_OperationDates", "dbo");
 
             entity.Property(e => e.CruiseBanner).HasMaxLength(250);
+            entity.Property(e => e.CruiseDescription).HasColumnType("ntext");
             entity.Property(e => e.CruiseId).HasColumnName("CruiseID");
+            entity.Property(e => e.CruiseName).HasMaxLength(250);
             entity.Property(e => e.CruiseNameSys).HasMaxLength(250);
             entity.Property(e => e.CruisePhoto).HasMaxLength(250);
             entity.Property(e => e.CruiseUrl)
@@ -401,6 +463,8 @@ public partial class NileCapitalCruisesBedbContext : DbContext
                 .HasNoKey()
                 .ToView("vw_Cruises_Itineraries", "dbo");
 
+            entity.Property(e => e.CruiseBanner).HasMaxLength(250);
+            entity.Property(e => e.CruiseDescription).HasColumnType("ntext");
             entity.Property(e => e.CruiseId).HasColumnName("CruiseID");
             entity.Property(e => e.CruiseNameSys).HasMaxLength(250);
             entity.Property(e => e.CruisePhoto).HasMaxLength(250);
@@ -421,6 +485,22 @@ public partial class NileCapitalCruisesBedbContext : DbContext
             entity.Property(e => e.WeekDayName).HasMaxLength(250);
         });
 
+        modelBuilder.Entity<VwExtrasExtraPriceType>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_Extras_ExtraPriceTypes", "dbo");
+
+            entity.Property(e => e.ExtraDescription).HasColumnType("ntext");
+            entity.Property(e => e.ExtraEndDate).HasColumnType("datetime");
+            entity.Property(e => e.ExtraId).HasColumnName("ExtraID");
+            entity.Property(e => e.ExtraNameSys).HasMaxLength(250);
+            entity.Property(e => e.ExtraPhoto).HasMaxLength(250);
+            entity.Property(e => e.ExtraPriceTypeId).HasColumnName("ExtraPriceTypeID");
+            entity.Property(e => e.ExtraPriceTypeNameSys).HasMaxLength(250);
+            entity.Property(e => e.ExtraStartDate).HasColumnType("datetime");
+        });
+
         modelBuilder.Entity<VwGetOperationDateAllotment>(entity =>
         {
             entity
@@ -429,6 +509,16 @@ public partial class NileCapitalCruisesBedbContext : DbContext
 
             entity.Property(e => e.OperationDate).HasColumnType("datetime");
             entity.Property(e => e.OperationDateId).HasColumnName("OperationDateID");
+        });
+
+        modelBuilder.Entity<VwItinerariesDaysDetail>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_Itineraries_Days_Details", "dbo");
+
+            entity.Property(e => e.ItineraryDayDetailsId).HasColumnName("ItineraryDayDetailsID");
+            entity.Property(e => e.ItineraryDayId).HasColumnName("ItineraryDayID");
         });
 
         modelBuilder.Entity<VwRatesPrice>(entity =>

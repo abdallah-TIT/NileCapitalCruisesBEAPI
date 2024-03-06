@@ -182,11 +182,34 @@ namespace BookingNile.API.Controllers.CMS
                        </tr>";
                 bodyForCompany += @"</tbody></table> ";
 
-                string bodyForCustomer = @"<p>Thanks! Your booking at Nile Capital Cruise is confirmed. We're thrilled to host you and are preparing to make your visit memorable.</p>";
-                bodyForCustomer += @"";
-                //await _emailSender.SendEmailAsync(body);
-                SendMail("do-not-reply@nilecapitalcruises.com", "abdallah.abdelnasser@titegypt.com", "Nile Capital Cruises Booking Request", bodyForCompany);
-                SendMail("do-not-reply@nilecapitalcruises.com", "abdallah.abdelnasser@titegypt.com", "Nile Capital Cruises Booking Request", bodyForCompany);
+                SendMail("do-not-reply@nilecapitalcruises.com", "info@nilecapitalcruises.com", "Nile Capital Cruises Booking Request", bodyForCompany);
+                SendMail("do-not-reply@nilecapitalcruises.com", "ahmed.taha@titegypt.com", "Nile Capital Cruises Booking Request", bodyForCompany);
+
+                if (cruiseItinerary?.CruiseId == 1)
+                {
+                    string bodyForCustomer = @"<p style='font-size: 14px;'>Thanks! Your booking at Nile Capital Cruise is confirmed. We're thrilled to host you and are preparing to make your visit memorable.</p> <p style='font-weight: bold; font-size: 14px;'>Your Booking:</p>";
+                    bodyForCustomer += bodyForCompany;
+                    bodyForCustomer += @"<br><span style='font-weight: bold; font-size: 14px;'>Nile Capital Cruises sales team:</span><br>";
+                    bodyForCustomer += @"<span style='font-size: 14px;'> <b>Email:</b> info@nilecapitalcruises.com</span><br>";
+                    bodyForCustomer += @"<span style='font-size: 14px;'> <b>Mobil:</b> +20 111 111 8733</span><br>";
+                    bodyForCustomer += @"<span style='font-size: 14px;'> <b>Address:</b> 12 Ismail Zohdi, Al Hadiqah Ad Dawleyah, Nasr City, Cairo Governorate</span><br>";
+
+                    SendMail("do-not-reply@nilecapitalcruises.com", request.CustomerEmail, "Booking Request", bodyForCustomer);
+                    SendMail("do-not-reply@nilecapitalcruises.com", "ahmed.taha@titegypt.com", "Booking Request", bodyForCustomer);
+                }
+                else
+                {
+                    string bodyForCustomer = @"<p style='font-size: 14px;'>Thanks! Your booking at Agatha Christie Dahabiya is confirmed. We can't wait to provide you with an exceptional experience.</p> <p style='font-weight: bold; font-size: 14px;'>Your Booking:</p>";
+                    bodyForCustomer += bodyForCompany;
+                    bodyForCustomer += @"<br><span style='font-weight: bold; font-size: 14px;'>Nile Capital Cruises sales team:</span><br>";
+                    bodyForCustomer += @"<span style='font-size: 14px;'> <b>Email:</b> info@nilecapitalcruises.com</span><br>";
+                    bodyForCustomer += @"<span style='font-size: 14px;'> <b>Mobil:</b> +20 111 111 8733</span><br>";
+                    bodyForCustomer += @"<span style='font-size: 14px;'> <b>Address:</b> 12 Ismail Zohdi, Al Hadiqah Ad Dawleyah, Nasr City, Cairo Governorate</span><br>";
+
+                    SendMail("do-not-reply@nilecapitalcruises.com", request.CustomerEmail, "Booking Request", bodyForCustomer);
+                    SendMail("do-not-reply@nilecapitalcruises.com", "ahmed.taha@titegypt.com", "Booking Request", bodyForCustomer);
+                }
+
             }
 
             catch (Exception ex)
@@ -198,7 +221,25 @@ namespace BookingNile.API.Controllers.CMS
             //SendMail("do-not-reply@nilecapitalcruises.com", "abdallah.abdelnasser@titegypt.com", "Nile Capital Cruise Booking Mail", "hi");
             //await _emailSender.SendEmailAsync("dd");
 
-            return Ok(newOreder);
+            var orderResponse = new CLS_Order_Response() {
+                CustomerFirstName = newOreder.CustomerFirstName,
+                CustomerLastName = newOreder.CustomerLastName,
+                CustomerEmail = newOreder.CustomerEmail,
+                CustomerPhone = newOreder.CustomerPhone,
+                NationalityName = nationality?.NationalityName,
+                CruiseNameSys = cruiseItinerary?.CruiseNameSys,
+                CabinNameSys = cabin?.CabinNameSys,
+                ItineraryNameSys = cruiseItinerary?.ItineraryNameSys,
+                str_OperationDate = date.ToString("dddd dd, MMMM , yyyy"),
+                AdultsNo = newOreder.AdultsNo,
+                ChildNo = newOreder.ChildNo,
+                OrderTotalPrice = newOreder.OrderTotalPrice,
+                OrderSpecialRequest = newOreder.OrderSpecialRequest
+
+            };
+
+
+            return Ok(orderResponse);
 
         }
 

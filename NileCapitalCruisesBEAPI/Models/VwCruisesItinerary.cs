@@ -38,4 +38,8 @@ public partial class VwCruisesItinerary
     public string? CruiseUrl { get; set; }
 
     public string? CruisePhoto { get; set; }
+
+    public string? CruiseBanner { get; set; }
+
+    public string? CruiseDescription { get; set; }
 }

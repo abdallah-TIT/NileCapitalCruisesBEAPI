@@ -4,6 +4,8 @@ using NileCapitalCruisesBEAPI.DTOs.BookingWedget;
 using NileCapitalCruisesBEAPI.DTOs.Step_GetCabins;
 using NileCapitalCruisesBEAPI.DTOs.Step_GetCruises;
 using NileCapitalCruisesBEAPI.Models;
+using System.ComponentModel;
+using System.Linq;
 
 namespace BookingNile.API.Controllers.CMS
 {
@@ -34,8 +36,9 @@ namespace BookingNile.API.Controllers.CMS
                                 .Where(vw => vw.DurationId == DurationId
                                       && vw.OperationDate == date
                                       && vw.CountAllotment > 0).ToList();
-
-
+            //var itinerariesIds = vwCruisesItinerariesOperationDates.Select(x =>x.ItineraryId).ToList();
+            var itineraryDays = _dbContext.ItinerariesDays.ToList();
+            var itineraryDayEvents = _dbContext.ItinerariesDaysEvents.ToList();
             var Obj_GetCruises = vwCruisesItinerariesOperationDates.Select(i => new CLS_GetCruises()
             {
                 ItineraryId = i.ItineraryId,
@@ -46,9 +49,20 @@ namespace BookingNile.API.Controllers.CMS
                 CruiseUrl = i.CruiseUrl,
                 CruisePhoto = _configuration["ImageURL"] + i.CruisePhoto,
                 CruiseBanner = _configuration["ImageURL"] + i.CruiseBanner,
-                str_OperationDate = $"{i.OperationDateYear:D4},{i.OperationDateMonth:D2},{i.OperationDateDay:D2}",
+                CruiseDescription = i.CruiseDescription,
+                str_OperationDate = date.ToString("dddd dd, MMMM , yyyy"),
                 AdultNumber = AdultNumber,
                 ChildNumber = ChildNumber,
+                ItineraryDays = itineraryDays.Where(id => id.ItineraryId == i.ItineraryId).Select(id => new CLS_ItineraryDay()
+                {
+                    ItineraryDayId = id.ItineraryDayId,
+                    ItineraryId = id.ItineraryId,
+                    DayName = id.DayName,
+                    ItineraryDayEvents = itineraryDayEvents.Where(ide => ide.ItineraryDayId == id.ItineraryDayId).Select(ide => new CLS_ItineraryDayEvent()
+                    {
+                        EventDescription = ide.EventDescription
+                    }).ToList()
+                }).ToList(),
             }).ToList();
 
 

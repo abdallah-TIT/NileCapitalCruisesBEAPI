@@ -40,4 +40,8 @@ public partial class VwCruisesItinerariesOperationDate
     public string? WeekDayName { get; set; }
 
     public int? WeekDayId { get; set; }
+
+    public string? CruiseName { get; set; }
+
+    public string? CruiseDescription { get; set; }
 }
