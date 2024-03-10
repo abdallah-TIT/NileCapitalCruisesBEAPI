@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NileCapitalCruisesBEAPI.Models;
 
-public partial class TblExtraPriceType
+public partial class TblMasterExtraPriceType
 {
     public int ExtraPriceTypeId { get; set; }
 

@@ -23,6 +23,7 @@
         public string? CruiseDescription { get; set; }
         public int AdultNumber { get; set; }
         public int ChildNumber { get; set; }
+        public double? PriceAdultBasic { get; set; }
 
 
         public IList<CLS_ItineraryDay> ItineraryDays { get; set; }

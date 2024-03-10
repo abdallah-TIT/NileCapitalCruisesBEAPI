@@ -7,6 +7,8 @@ public partial class TblExtra
 {
     public int ExtraId { get; set; }
 
+    public int? CruiseId { get; set; }
+
     public string? ExtraNameSys { get; set; }
 
     public string? ExtraDescription { get; set; }

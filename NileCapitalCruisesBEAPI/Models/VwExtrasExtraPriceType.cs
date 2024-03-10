@@ -5,7 +5,9 @@ namespace NileCapitalCruisesBEAPI.Models;
 
 public partial class VwExtrasExtraPriceType
 {
-    public int ExtraId { get; set; }
+    public int CruiseId { get; set; }
+
+    public string? CruiseUrl { get; set; }
 
     public string? ExtraNameSys { get; set; }
 
@@ -15,17 +17,15 @@ public partial class VwExtrasExtraPriceType
 
     public int? ExtraPosition { get; set; }
 
-    public bool? ExtraStatus { get; set; }
-
     public DateTime? ExtraStartDate { get; set; }
 
     public DateTime? ExtraEndDate { get; set; }
 
     public bool? ExtraIsDeleted { get; set; }
 
-    public int? ExtraPriceTypeId { get; set; }
+    public string? ExtraPriceTypeNameSys { get; set; }
 
     public double? ExtraPrice { get; set; }
 
-    public string? ExtraPriceTypeNameSys { get; set; }
+    public int ExtraId { get; set; }
 }

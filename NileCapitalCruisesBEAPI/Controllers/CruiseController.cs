@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using NileCapitalCruisesBEAPI.DTOs.BookingWedget;
 using NileCapitalCruisesBEAPI.DTOs.Step_GetCabins;
 using NileCapitalCruisesBEAPI.DTOs.Step_GetCruises;
+using NileCapitalCruisesBEAPI.Helpers;
 using NileCapitalCruisesBEAPI.Models;
 using System.ComponentModel;
 using System.Linq;
@@ -37,33 +38,72 @@ namespace BookingNile.API.Controllers.CMS
                                       && vw.OperationDate == date
                                       && vw.CountAllotment > 0).ToList();
             //var itinerariesIds = vwCruisesItinerariesOperationDates.Select(x =>x.ItineraryId).ToList();
-            var itineraryDays = _dbContext.ItinerariesDays.ToList();
-            var itineraryDayEvents = _dbContext.ItinerariesDaysEvents.ToList();
-            var Obj_GetCruises = vwCruisesItinerariesOperationDates.Select(i => new CLS_GetCruises()
+            var itineraryDays = _dbContext.TblItinerariesDays.ToList();
+            var itineraryDayEvents = _dbContext.TblItinerariesDaysEvents.ToList();
+
+            var Obj_GetCruises = vwCruisesItinerariesOperationDates.Select(i =>
             {
-                ItineraryId = i.ItineraryId,
-                CruiseId = i.CruiseId,
-                ItineraryNameSys = i.ItineraryNameSys,
-                WeekDayName = i.WeekDayName,
-                CruiseNameSys = i.CruiseNameSys,
-                CruiseUrl = i.CruiseUrl,
-                CruisePhoto = _configuration["ImageURL"] + i.CruisePhoto,
-                CruiseBanner = _configuration["ImageURL"] + i.CruiseBanner,
-                CruiseDescription = i.CruiseDescription,
-                str_OperationDate = date.ToString("dddd dd, MMMM , yyyy"),
-                AdultNumber = AdultNumber,
-                ChildNumber = ChildNumber,
-                ItineraryDays = itineraryDays.Where(id => id.ItineraryId == i.ItineraryId).Select(id => new CLS_ItineraryDay()
+                // Calculate Price_Adult_Basic
+                var getRatePriceStructures = RatePriceStructure.GetRatePriceStructures(_dbContext);
+                double? ratePrice = _dbContext.VwRatesPrices.Where(rp => rp.ItineraryId == i.ItineraryId).OrderBy(x => x.RatePrice).FirstOrDefault()?.RatePrice;
+                double? priceAdultBasic = AdultNumber == 1 ? RatePriceStructure.CalculatePrice(getRatePriceStructures.SingleAdult, ratePrice) : ratePrice;
+
+                return new CLS_GetCruises
                 {
-                    ItineraryDayId = id.ItineraryDayId,
-                    ItineraryId = id.ItineraryId,
-                    DayName = id.DayName,
-                    ItineraryDayEvents = itineraryDayEvents.Where(ide => ide.ItineraryDayId == id.ItineraryDayId).Select(ide => new CLS_ItineraryDayEvent()
+                    ItineraryId = i.ItineraryId,
+                    CruiseId = i.CruiseId,
+                    ItineraryNameSys = i.ItineraryNameSys,
+                    WeekDayName = i.WeekDayName,
+                    CruiseNameSys = i.CruiseNameSys,
+                    CruiseUrl = i.CruiseUrl,
+                    CruisePhoto = _configuration["ImageURL"] + i.CruisePhoto,
+                    CruiseBanner = _configuration["ImageURL"] + i.CruiseBanner,
+                    CruiseDescription = i.CruiseDescription,
+                    str_OperationDate = date.ToString("dddd dd, MMMM , yyyy"),
+                    AdultNumber = AdultNumber,
+                    ChildNumber = ChildNumber,
+                    PriceAdultBasic = priceAdultBasic,
+                    ItineraryDays = itineraryDays.Where(id => id.ItineraryId == i.ItineraryId).Select(id => new CLS_ItineraryDay()
                     {
-                        EventDescription = ide.EventDescription
-                    }).ToList()
-                }).ToList(),
+                        ItineraryDayId = id.ItineraryDayId,
+                        ItineraryId = id.ItineraryId,
+                        DayName = id.DayName,
+                        ItineraryDayEvents = itineraryDayEvents.Where(ide => ide.ItineraryDayId == id.ItineraryDayId).Select(ide => new CLS_ItineraryDayEvent()
+                        {
+                            EventDescription = ide.EventDescription
+                        }).ToList()
+                    }).ToList(),
+                };
             }).ToList();
+
+
+            //    var Obj_GetCruises = vwCruisesItinerariesOperationDates.Select(i => 
+            //new CLS_GetCruises()
+            //{
+            //    ItineraryId = i.ItineraryId,
+            //    CruiseId = i.CruiseId,
+            //    ItineraryNameSys = i.ItineraryNameSys,
+            //    WeekDayName = i.WeekDayName,
+            //    CruiseNameSys = i.CruiseNameSys,
+            //    CruiseUrl = i.CruiseUrl,
+            //    CruisePhoto = _configuration["ImageURL"] + i.CruisePhoto,
+            //    CruiseBanner = _configuration["ImageURL"] + i.CruiseBanner,
+            //    CruiseDescription = i.CruiseDescription,
+            //    str_OperationDate = date.ToString("dddd dd, MMMM , yyyy"),
+            //    AdultNumber = AdultNumber,
+            //    ChildNumber = ChildNumber,
+            //    PriceAdultBasic = _dbContext.VwRatesPrices.OrderBy(x => x.RatePrice).FirstOrDefault()?.RatePrice,
+            //    ItineraryDays = itineraryDays.Where(id => id.ItineraryId == i.ItineraryId).Select(id => new CLS_ItineraryDay()
+            //    {
+            //        ItineraryDayId = id.ItineraryDayId,
+            //        ItineraryId = id.ItineraryId,
+            //        DayName = id.DayName,
+            //        ItineraryDayEvents = itineraryDayEvents.Where(ide => ide.ItineraryDayId == id.ItineraryDayId).Select(ide => new CLS_ItineraryDayEvent()
+            //        {
+            //            EventDescription = ide.EventDescription
+            //        }).ToList()
+            //    }).ToList(),
+            //}).ToList();
 
 
 
@@ -74,6 +114,6 @@ namespace BookingNile.API.Controllers.CMS
         }
 
 
-
+        
     }
 }
