@@ -3,8 +3,12 @@ using System.Collections.Generic;
 
 namespace NileCapitalCruisesBEAPI.Models;
 
-public partial class TblOrder
+public partial class VwOrder
 {
+    public string? OrderStatus { get; set; }
+
+    public int? Expr1 { get; set; }
+
     public int OrderId { get; set; }
 
     public string? OrderConfirmationNumber { get; set; }
@@ -31,17 +35,9 @@ public partial class TblOrder
 
     public string? CustomerPhone { get; set; }
 
-    public int? CustomerNationalityId { get; set; }
+    public string? NationalityName { get; set; }
 
     public string? OrderSpecialRequest { get; set; }
-
-    public double? PriceAdultRate { get; set; }
-
-    public int? CurrencyId { get; set; }
-
-    public double? PriceChildRate { get; set; }
-
-    public int? OrderStatusId { get; set; }
 
     public string? PmpaymentStatus { get; set; }
 
@@ -51,9 +47,9 @@ public partial class TblOrder
 
     public string? PmmerchantOrderId { get; set; }
 
-    public string? PmorderId { get; set; }
-
     public string? PmcardBrand { get; set; }
+
+    public string? PmorderId { get; set; }
 
     public string? PmorderReference { get; set; }
 
